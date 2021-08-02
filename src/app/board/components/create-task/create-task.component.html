@@ -1,0 +1,57 @@
+<form 
+    novalidate 
+    class="form"
+    [formGroup]="createTask"
+    (ngSubmit)="onFormAdd(createTask.value)">
+   
+    <header class="form__header">
+    
+        <h3 class="form__header__title">{{ headerText }} Task </h3>
+        
+        <button class="form__header__close-button" mat-raised-button (click)="close()">
+            <mat-icon aria-hidden="false" aria-label="close icon">close</mat-icon>
+        </button>
+    </header>
+    
+    <section class="form__fields">
+              
+  
+        <mat-form-field class="form__fields__item" appearance="fill">
+            <mat-label>Date</mat-label>
+            <input matInput placeholder="yy/mm/dd" formControlName="date" [matDatepicker]="picker">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+            <mat-error>Date is <strong>required</strong></mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" class="form__fields__item">
+            <mat-label>Select a priority</mat-label>
+            <select matNativeControl name="priority" formControlName="priority" [(ngModel)]="selectedPriority">
+                <option value="" selected></option>
+                <option *ngFor="let priority of priorities" [value]="priority.value">
+                    {{priority.viewValue}}
+                </option>
+            </select>
+            <mat-error>
+                The priority is <strong>required</strong>
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" class="form__fields__item">
+            <mat-label>Description</mat-label>
+            <textarea 
+                matInput 
+                cdkTextareaAutosize
+                #autosize="cdkTextareaAutosize"
+                cdkAutosizeMinRows="1"
+                cdkAutosizeMaxRows="5"
+                formControlName="description"></textarea>
+        <mat-error>
+            The description is <strong>required</strong>
+        </mat-error>
+        </mat-form-field>
+      
+        
+        <button class="form__fields__button" mat-raised-button color="primary" [disabled]="!createTask.valid">{{headerText}}</button>
+    </section>
+</form>
